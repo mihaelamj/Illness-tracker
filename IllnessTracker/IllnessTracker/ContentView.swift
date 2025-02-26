@@ -19,7 +19,7 @@ struct ContentView: View {
         NavigationStack(path: $navigationPath) {
             PatientListView(navigationPath: $navigationPath, illnessViewModel: illnessViewModel)
                 .navigationDestination(for: String.self) { patientName in
-                    IllnessListView(patientName: patientName, navigationPath: $navigationPath)
+                    IllnessListView(navigationPath:  $navigationPath, illnessViewModel: illnessViewModel, patientName: patientName)
                 }
                 .navigationDestination(for: Illness.self) { illness in
                     IllnessDetailView(illness: illness, navigationPath: $navigationPath)
@@ -27,7 +27,7 @@ struct ContentView: View {
                 .navigationDestination(for: NavigationDestination.self) { destination in
                     switch destination {
                     case .addIllness(let patientName):
-                        AddIllnessView(patientName: patientName, navigationPath: $navigationPath)
+                        AddIllnessView(navigationPath: $navigationPath, illnessViewModel: illnessViewModel,  patientName: patientName)
                     case .addRecord(let illness):
                         AddHealthRecordView(illness: illness, navigationPath: $navigationPath)
                     case .viewAttachments(let illness):

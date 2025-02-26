@@ -3,11 +3,17 @@ import SwiftUI
 struct AddIllnessView: View {
     let patientName: String
     @Binding var navigationPath: NavigationPath
-    @EnvironmentObject var illnessViewModel: IllnessViewModel
+    @ObservedObject var illnessViewModel: IllnessViewModel
     @Environment(\.dismiss) private var dismiss
     
     @State private var startDate = Date()
     @State private var notes = ""
+    
+    init(navigationPath: Binding<NavigationPath>, illnessViewModel: IllnessViewModel, patientName: String) {
+        self._navigationPath = navigationPath
+        self.illnessViewModel = illnessViewModel
+        self.patientName = patientName
+    }
     
     var body: some View {
         Form {
@@ -45,7 +51,7 @@ struct AddIllnessView: View {
         .navigationTitle("Add New Illness")
         .onAppear {
             // Initialize with the patient name
-            illnessViewModel.newIllness = Illness(
+            illnessViewModel.newIllness = Illness( // error
                 patientName: patientName,
                 startDate: startDate,
                 notes: notes.isEmpty ? nil : notes

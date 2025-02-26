@@ -3,12 +3,18 @@ import SwiftUI
 struct IllnessListView: View {
     let patientName: String
     @Binding var navigationPath: NavigationPath
-    @EnvironmentObject var illnessViewModel: IllnessViewModel
+    @ObservedObject var illnessViewModel: IllnessViewModel
     
     var patientIllnesses: [Illness] {
         illnessViewModel.illnesses
             .filter { $0.patientName == patientName }
             .sorted(by: { $0.startDate > $1.startDate })
+    }
+    
+    init(navigationPath: Binding<NavigationPath>, illnessViewModel: IllnessViewModel, patientName: String) {
+        self._navigationPath = navigationPath
+        self.illnessViewModel = illnessViewModel
+        self.patientName = patientName
     }
     
     var body: some View {
